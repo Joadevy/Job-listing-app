@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
+import { AppCtx } from "./AppCtx";
 import { type adProps } from "./types";
 
 interface Props {
@@ -8,8 +9,8 @@ interface Props {
 
 // eslint-disable-next-line no-undef
 const Ad: FC<Props> = ({ ad }): JSX.Element => {
+  const { ads, setAds } = useContext(AppCtx);
   const {
-    id,
     company,
     logo,
     new: isNew,
@@ -24,42 +25,87 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
     tools,
   } = ad;
 
+  const handleClick = (value: adProps["level"]) => {
+    setAds(ads.filter((ad) => ad.level === value));
+  };
+
   return (
-    <div className="p-10 relative shadow-md border-2 rounded-lg">
+    <div className="px-10 pt-10 pb-5 relative shadow-md border-2 rounded-lg text-lg">
       <div className="w-14 h-14 absolute top-[-25px]">
         <img alt="" className="w-full" src={logo} />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         {featured ? (
           <div className="absolute top-0 left-0 h-full bg-primary-cyan w-2 z-[-10]" />
         ) : null}
-        <div className="flex">
+        <div className="flex items-center">
           <h2 className="font-bold text-primary-cyan">{company}</h2>
           {isNew ? (
-            <span className="bg-primary-cyan text-white  font-bold rounded-full px-2 ml-4">
+            <span className="bg-primary-cyan text-white text-center font-bold text-base rounded-full px-2 ml-4">
               NEW!
             </span>
           ) : null}
           {featured ? (
-            <span className="bg-neutral-cyan-400 text-white text-center font-bold rounded-full px-2 ml-2">
+            <span className="bg-neutral-cyan-400 text-white text-center text-base font-bold rounded-full px-2 ml-2">
               FEATURED
             </span>
           ) : null}
         </div>
+
         <h1>{position}</h1>
+
         <ul className="flex gap-6 text-neutral-cyan-300">
           <li className="">{postedAt}</li>
           <li className="list-disc">{contract}</li>
           <li className="list-disc">{location}</li>
         </ul>
+
         <hr className="border-1 border-neutral-cyan-300" />
-      </div>
-      <div className="flex gap-2 text-primary-cyan font-bold">
-        {languages.map((language, index) => (
-          <a key={index} className="bg-neutral-cyan-200" href="/">
-            {language}
-          </a>
-        ))}
+
+        <div className="flex gap-3 flex-wrap text-primary-cyan font-bold">
+          <button
+            className="bg-neutral-cyan-200 p-2 rounded-full"
+            onClick={() => setAds(ads.filter((ad) => ad.role === role))}
+            onKeyPress={() => setAds(ads.filter((ad) => ad.role === role))}
+          >
+            {role}
+          </button>
+          <button
+            className="bg-neutral-cyan-200 p-2 rounded-full"
+            onClick={() => setAds(ads.filter((ad) => ad.level === level))}
+            onKeyPress={() => setAds(ads.filter((ad) => ad.level === level))}
+          >
+            {level}
+          </button>
+          {languages?.map((language, index) => (
+            <button
+              key={index}
+              className="bg-neutral-cyan-200 p-2 rounded-full"
+              onClick={() =>
+                setAds(ads.filter((ad) => ad.languages.includes(language)))
+              }
+              onKeyPress={() =>
+                setAds(ads.filter((ad) => ad.languages.includes(language)))
+              }
+            >
+              {language}
+            </button>
+          ))}
+          {tools.map((tool) => (
+            <button
+              key={tool}
+              className="bg-neutral-cyan-200 p-2 rounded-full"
+              onClick={() =>
+                setAds(ads.filter((ad) => ad.tools.includes(tool)))
+              }
+              onKeyPress={() =>
+                setAds(ads.filter((ad) => ad.tools.includes(tool)))
+              }
+            >
+              {tool}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
