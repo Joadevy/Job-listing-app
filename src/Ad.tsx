@@ -9,7 +9,7 @@ interface Props {
 
 // eslint-disable-next-line no-undef
 const Ad: FC<Props> = ({ ad }): JSX.Element => {
-  const { ads, setAds } = useContext(AppCtx);
+  const { ads, setAds, filters, setFilters } = useContext(AppCtx);
   const {
     company,
     logo,
@@ -24,10 +24,6 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
     languages,
     tools,
   } = ad;
-
-  const handleClick = (value: adProps["level"]) => {
-    setAds(ads.filter((ad) => ad.level === value));
-  };
 
   return (
     <div className="px-10 pt-10 pb-5 relative shadow-md border-2 rounded-lg text-lg">
@@ -65,15 +61,27 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
         <div className="flex gap-3 flex-wrap text-primary-cyan font-bold">
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
-            onClick={() => setAds(ads.filter((ad) => ad.role === role))}
-            onKeyPress={() => setAds(ads.filter((ad) => ad.role === role))}
+            onClick={() => (
+              setAds(ads.filter((ad) => ad.role === role)),
+              filters.includes(role) ? null : setFilters([...filters, role])
+            )}
+            onKeyPress={() => (
+              setAds(ads.filter((ad) => ad.role === role)),
+              filters.includes(role) ? null : setFilters([...filters, role])
+            )}
           >
             {role}
           </button>
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
-            onClick={() => setAds(ads.filter((ad) => ad.level === level))}
-            onKeyPress={() => setAds(ads.filter((ad) => ad.level === level))}
+            onClick={() => (
+              setAds(ads.filter((ad) => ad.level === level)),
+              filters.includes(level) ? null : setFilters([...filters, level])
+            )}
+            onKeyPress={() => (
+              setAds(ads.filter((ad) => ad.level === level)),
+              filters.includes(level) ? null : setFilters([...filters, level])
+            )}
           >
             {level}
           </button>
@@ -81,12 +89,18 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
             <button
               key={index}
               className="bg-neutral-cyan-200 p-2 rounded-full"
-              onClick={() =>
-                setAds(ads.filter((ad) => ad.languages.includes(language)))
-              }
-              onKeyPress={() =>
-                setAds(ads.filter((ad) => ad.languages.includes(language)))
-              }
+              onClick={() => (
+                setAds(ads.filter((ad) => ad.languages.includes(language))),
+                filters.includes(language)
+                  ? null
+                  : setFilters([...filters, language])
+              )}
+              onKeyPress={() => (
+                setAds(ads.filter((ad) => ad.languages.includes(language))),
+                filters.includes(language)
+                  ? null
+                  : setFilters([...filters, language])
+              )}
             >
               {language}
             </button>
@@ -95,12 +109,14 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
             <button
               key={tool}
               className="bg-neutral-cyan-200 p-2 rounded-full"
-              onClick={() =>
-                setAds(ads.filter((ad) => ad.tools.includes(tool)))
-              }
-              onKeyPress={() =>
-                setAds(ads.filter((ad) => ad.tools.includes(tool)))
-              }
+              onClick={() => (
+                setAds(ads.filter((ad) => ad.tools.includes(tool))),
+                filters.includes(tool) ? null : setFilters([...filters, tool])
+              )}
+              onKeyPress={() => (
+                setAds(ads.filter((ad) => ad.tools.includes(tool))),
+                filters.includes(tool) ? null : setFilters([...filters, tool])
+              )}
             >
               {tool}
             </button>
