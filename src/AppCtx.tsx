@@ -1,17 +1,17 @@
 import { createContext, SetStateAction } from "react";
 
-import { type adProps } from "./types";
+import { type Filter } from "./types";
 
 export type globalContext = {
-  ads: adProps[];
-  setAds: (_x: SetStateAction<adProps[]>) => void;
-  filters: string[];
-  setFilters: (_x: SetStateAction<string[]>) => void;
+  // ads: adProps[];
+  // setAds: (_x: SetStateAction<adProps[]>) => void;
+  filters: Filter;
+  setFilters: (_x: SetStateAction<Filter>) => void;
 };
 
 export const AppCtx = createContext<globalContext>({
-  ads: [],
-  setAds: () => {},
-  filters: [],
+  // ads: [],
+  // setAds: () => {},
+  filters: { role: "", level: "", languages: [], tools: [] },
   setFilters: () => {},
 });

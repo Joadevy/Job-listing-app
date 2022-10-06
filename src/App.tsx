@@ -1,28 +1,29 @@
+import type { Filter, adProps } from "./types";
+
 import { useState, useEffect } from "react";
 
+import { AppCtx } from "./AppCtx";
 import Ad from "./Ad";
-import { type adProps } from "./types";
 
 function App() {
   const [ads, setAds] = useState<adProps[]>([]);
   const [status, setStatus] = useState<"loading" | "success">("loading");
-  const [filters, setFilters] = useState<Map<string, string | string[]>>(
-    () => new Map()
-  );
-  // const [filters, setFilters] = useState({
-  // role: "",
-  // level: "",
-  // languages: [],
-  // tools: [],
-  // });
+  const [filters, setFilters] = useState<Filter>({
+    role: "",
+    level: "",
+    languages: [],
+    tools: [],
+  });
 
   useEffect(() => {
     requestData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    // Codigo cuando cambia el estado de filters, debe filtrar los ads
-  }, [filters]);
+  // useEffect(() => {
+  //   // Codigo cuando cambia el estado de filters, debe filtrar los ads
+  // }, [filters]);
+
+  console.log("render");
 
   const requestData = async () => {
     await fetch("./data.json")
@@ -67,11 +68,13 @@ function App() {
       ) : (
         ""
       )} */}
-      <main className="flex flex-col gap-10 mx-5 my-14">
-        {ads?.map((ad: adProps) => (
-          <Ad key={ad.id} ad={ad} />
-        ))}
-      </main>
+      <AppCtx.Provider value={{ filters, setFilters }}>
+        <main className="flex flex-col gap-10 mx-5 my-14">
+          {ads?.map((ad: adProps) => (
+            <Ad key={ad.id} ad={ad} />
+          ))}
+        </main>
+      </AppCtx.Provider>
     </div>
   );
 }

@@ -1,6 +1,7 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
-import { type adProps } from "./types";
+import { Filter, type adProps } from "./types";
+import { AppCtx } from "./AppCtx";
 
 interface Props {
   ad: adProps;
@@ -22,7 +23,7 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
     tools,
   } = ad;
 
-  const handleFilters = (filter: string) => {};
+  const { filters, setFilters } = useContext(AppCtx);
 
   return (
     <div className="px-10 pt-10 pb-5 relative shadow-md border-2 rounded-lg text-lg">
@@ -60,25 +61,25 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
         <div className="flex gap-3 flex-wrap text-primary-cyan font-bold">
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
-            // onClick={() => (
-            //   setAds(ads.filter((ad) => ad.role === role)),
-            //   filters.includes(role) ? null : setFilters([...filters, role])
-            // )}
-            // onKeyPress={() => (
-            //   setAds(ads.filter((ad) => ad.role === role)),
-            //   filters.includes(role) ? null : setFilters([...filters, role])
-            // )}
+            onClick={() =>
+              filters.role !== role
+                ? setFilters({ ...filters, role: role })
+                : ""
+            }
+            onKeyPress={() => {
+              filters.role !== role
+                ? setFilters({ ...filters, role: role })
+                : "";
+            }}
           >
             {role}
           </button>
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
             // onClick={() => (
-            //   setAds(ads.filter((ad) => ad.level === level)),
             //   filters.includes(level) ? null : setFilters([...filters, level])
             // )}
             // onKeyPress={() => (
-            //   setAds(ads.filter((ad) => ad.level === level)),
             //   filters.includes(level) ? null : setFilters([...filters, level])
             // )}
           >
@@ -89,13 +90,11 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
               key={index}
               className="bg-neutral-cyan-200 p-2 rounded-full"
               // onClick={() => (
-              //   setAds(ads.filter((ad) => ad.languages.includes(language))),
               //   filters.includes(language)
               //     ? null
               //     : setFilters([...filters, language])
               // )}
               // onKeyPress={() => (
-              //   setAds(ads.filter((ad) => ad.languages.includes(language))),
               //   filters.includes(language)
               //     ? null
               //     : setFilters([...filters, language])
@@ -109,11 +108,9 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
               key={tool}
               className="bg-neutral-cyan-200 p-2 rounded-full"
               // onClick={() => (
-              //   setAds(ads.filter((ad) => ad.tools.includes(tool))),
               //   filters.includes(tool) ? null : setFilters([...filters, tool])
               // )}
               // onKeyPress={() => (
-              //   setAds(ads.filter((ad) => ad.tools.includes(tool))),
               //   filters.includes(tool) ? null : setFilters([...filters, tool])
               // )}
             >
