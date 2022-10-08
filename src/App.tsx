@@ -2,13 +2,8 @@ import type { adProps } from "./types";
 
 import { useState, useEffect } from "react";
 
-// import { AppCtx } from "./AppCtx";
 import Ad from "./Ad";
 import Filter from "./Filter";
-
-function commonElement(arr1: string[], arr2: string[]) {
-  return arr2.every((value) => arr1.includes(value));
-}
 
 function App() {
   const [ads, setAds] = useState<adProps[]>([]);
@@ -35,25 +30,44 @@ function App() {
     }
   };
 
-  if (status === "loading") return <div>loading...</div>;
-  console.log("render");
+  const handleRemoveFilter = (filter: string) => {
+    filters.delete(filter);
+    setFilters(new Set(filters));
+  };
+
+  const handleFilter = () => {
+    if (filters.size === 0) {
+      return ads;
+    }
+
+    return ads.filter((ad) => {
+      const { role, level, languages, tools } = ad;
+      const tags = [role, level, ...languages, ...tools];
+
+      return filters.size === tags.filter((tag) => filters.has(tag)).length;
+    });
+  };
+
+  if (status === "loading") return <div>Loading...</div>;
 
   return (
     <div>
-      <header className="bg-primary-cyan">
-        <img alt="" src="assets/images/bg-header-mobile.svg" />
-      </header>
+      <header className="h-32 bg-primary-cyan bg-hero-mobile-pattern lg:h-40 lg:bg-hero-desktop-pattern" />
 
       {filters.size ? (
-        <div className="flex flex-wrap gap-4 m-5 p-6 bg-neutral-100 relative z-10 mt-[-25px] shadow-md rounded-lg">
+        <div className="flex flex-wrap gap-4 m-5 p-6 bg-neutral-100 relative z-10 mt-[-25px] shadow-md rounded-lg lg:mx-24">
           {Array.from(filters).map((filter) => (
-            <Filter key={filter} filter={filter} />
+            <Filter
+              key={filter}
+              filter={filter}
+              removeFilter={handleRemoveFilter}
+            />
           ))}
         </div>
       ) : null}
 
-      <main className="flex flex-col gap-10 mx-5 my-14">
-        {ads.map((ad: adProps) => (
+      <main className="flex flex-col gap-10 mx-5 my-14 lg:mx-24">
+        {handleFilter().map((ad: adProps) => (
           <Ad key={ad.id} ad={ad} setFilter={handleAddFilter} />
         ))}
       </main>

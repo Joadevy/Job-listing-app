@@ -6,6 +6,7 @@ interface Props {
   ad: adProps;
   setFilter: (_x: string) => void;
 }
+
 // eslint-disable-next-line no-undef
 const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
   const {
@@ -24,8 +25,8 @@ const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
   } = ad;
 
   return (
-    <div className="px-10 pt-10 pb-5 relative shadow-md border-2 rounded-lg text-lg">
-      <div className="w-14 h-14 absolute top-[-25px]">
+    <div className="px-10 pt-10 pb-5 relative shadow-md border-2 rounded-lg text-lg lg:items-center lg:flex lg:gap-5">
+      <div className="w-14 h-14 absolute top-[-25px] lg:w-24 lg:h-24 lg:relative lg:top-0">
         <img alt="" className="w-full" src={logo} />
       </div>
       <div className="flex flex-col gap-4">
@@ -54,9 +55,9 @@ const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
           <li className="list-disc">{location}</li>
         </ul>
 
-        <hr className="border-1 border-neutral-cyan-300" />
+        <hr className="border-1 border-neutral-cyan-300 lg:hidden" />
 
-        <div className="flex gap-3 flex-wrap text-primary-cyan font-bold">
+        <div className="flex gap-3 flex-wrap text-primary-cyan font-bold lg:absolute lg:right-0 lg:top-1/2 lg:mx-4">
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
             onClick={() => setFilter(role)}
