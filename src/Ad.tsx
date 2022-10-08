@@ -76,12 +76,16 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
           </button>
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
-            // onClick={() => (
-            //   filters.includes(level) ? null : setFilters([...filters, level])
-            // )}
-            // onKeyPress={() => (
-            //   filters.includes(level) ? null : setFilters([...filters, level])
-            // )}
+            onClick={() =>
+              filters.level !== level
+                ? setFilters({ ...filters, level: level })
+                : ""
+            }
+            onKeyPress={() => {
+              filters.role !== role
+                ? setFilters({ ...filters, level: level })
+                : "";
+            }}
           >
             {level}
           </button>
@@ -89,16 +93,18 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
             <button
               key={index}
               className="bg-neutral-cyan-200 p-2 rounded-full"
-              // onClick={() => (
-              //   filters.includes(language)
-              //     ? null
-              //     : setFilters([...filters, language])
-              // )}
-              // onKeyPress={() => (
-              //   filters.includes(language)
-              //     ? null
-              //     : setFilters([...filters, language])
-              // )}
+              onClick={() => {
+                !filters.languages.includes(language)
+                  ? (filters.languages.push(language),
+                    setFilters({ ...filters }))
+                  : "";
+              }}
+              onKeyPress={() => {
+                !filters.languages.includes(language)
+                  ? (filters.languages.push(language),
+                    setFilters({ ...filters }))
+                  : "";
+              }}
             >
               {language}
             </button>
@@ -107,12 +113,16 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
             <button
               key={tool}
               className="bg-neutral-cyan-200 p-2 rounded-full"
-              // onClick={() => (
-              //   filters.includes(tool) ? null : setFilters([...filters, tool])
-              // )}
-              // onKeyPress={() => (
-              //   filters.includes(tool) ? null : setFilters([...filters, tool])
-              // )}
+              onClick={() => {
+                !filters.tools.includes(tool)
+                  ? (filters.tools.push(tool), setFilters({ ...filters }))
+                  : "";
+              }}
+              onKeyPress={() => {
+                !filters.tools.includes(tool)
+                  ? (filters.tools.push(tool), setFilters({ ...filters }))
+                  : "";
+              }}
             >
               {tool}
             </button>

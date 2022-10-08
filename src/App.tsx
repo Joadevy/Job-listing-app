@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import { AppCtx } from "./AppCtx";
 import Ad from "./Ad";
 
+function commonElement(arr1: string[], arr2: string[]) {
+  return arr2.every((value) => arr1.includes(value));
+}
+
 function App() {
   const [ads, setAds] = useState<adProps[]>([]);
   const [status, setStatus] = useState<"loading" | "success">("loading");
@@ -18,10 +22,6 @@ function App() {
   useEffect(() => {
     requestData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   // Codigo cuando cambia el estado de filters, debe filtrar los ads
-  // }, [filters]);
 
   console.log("render");
 
@@ -41,9 +41,12 @@ function App() {
       <header className="bg-primary-cyan">
         <img alt="" src="assets/images/bg-header-mobile.svg" />
       </header>
-      {/* {filters.length ? (
+      {filters.languages.length ||
+      filters.tools.length ||
+      filters.role ||
+      filters.level ? (
         <div className="flex flex-wrap gap-4 m-5 p-6 bg-neutral-100 relative z-10 mt-[-25px] shadow-md rounded-lg">
-          {filters.map((filter) => (
+          {filters.languages.map((filter) => (
             <div
               key={filter}
               className="flex bg-neutral-200 border-2 rounded-lg border-none relative z-0"
@@ -67,12 +70,28 @@ function App() {
         </div>
       ) : (
         ""
-      )} */}
+      )}
       <AppCtx.Provider value={{ filters, setFilters }}>
         <main className="flex flex-col gap-10 mx-5 my-14">
-          {ads?.map((ad: adProps) => (
-            <Ad key={ad.id} ad={ad} />
-          ))}
+          {ads
+            .filter((ad) => {
+              const { role, level, languages, tools } = filters;
+
+              return (
+                ((ad.role === role || role === "") &&
+                  (level === "" || ad.level === level) &&
+                  (commonElement(ad.languages, languages) ||
+                    languages.length === 0) &&
+                  (tools.length === 0 || commonElement(ad.tools, tools))) ||
+                (role === "" &&
+                  level === "" &&
+                  languages.length === 0 &&
+                  tools.length === 0)
+              );
+            })
+            .map((ad: adProps) => (
+              <Ad key={ad.id} ad={ad} />
+            ))}
         </main>
       </AppCtx.Provider>
     </div>
