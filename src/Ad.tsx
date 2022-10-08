@@ -1,13 +1,13 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 
-import { Filter, type adProps } from "./types";
-import { AppCtx } from "./AppCtx";
+import { type adProps } from "./types";
 
 interface Props {
   ad: adProps;
+  setFilter: (_x: string) => void;
 }
 // eslint-disable-next-line no-undef
-const Ad: FC<Props> = ({ ad }): JSX.Element => {
+const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
   const {
     company,
     logo,
@@ -22,8 +22,6 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
     languages,
     tools,
   } = ad;
-
-  const { filters, setFilters } = useContext(AppCtx);
 
   return (
     <div className="px-10 pt-10 pb-5 relative shadow-md border-2 rounded-lg text-lg">
@@ -61,31 +59,15 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
         <div className="flex gap-3 flex-wrap text-primary-cyan font-bold">
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
-            onClick={() =>
-              filters.role !== role
-                ? setFilters({ ...filters, role: role })
-                : ""
-            }
-            onKeyPress={() => {
-              filters.role !== role
-                ? setFilters({ ...filters, role: role })
-                : "";
-            }}
+            onClick={() => setFilter(role)}
+            onKeyPress={() => setFilter(role)}
           >
             {role}
           </button>
           <button
             className="bg-neutral-cyan-200 p-2 rounded-full"
-            onClick={() =>
-              filters.level !== level
-                ? setFilters({ ...filters, level: level })
-                : ""
-            }
-            onKeyPress={() => {
-              filters.role !== role
-                ? setFilters({ ...filters, level: level })
-                : "";
-            }}
+            onClick={() => setFilter(level)}
+            onKeyPress={() => setFilter(level)}
           >
             {level}
           </button>
@@ -93,18 +75,8 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
             <button
               key={index}
               className="bg-neutral-cyan-200 p-2 rounded-full"
-              onClick={() => {
-                !filters.languages.includes(language)
-                  ? (filters.languages.push(language),
-                    setFilters({ ...filters }))
-                  : "";
-              }}
-              onKeyPress={() => {
-                !filters.languages.includes(language)
-                  ? (filters.languages.push(language),
-                    setFilters({ ...filters }))
-                  : "";
-              }}
+              onClick={() => setFilter(language)}
+              onKeyPress={() => setFilter(language)}
             >
               {language}
             </button>
@@ -113,16 +85,8 @@ const Ad: FC<Props> = ({ ad }): JSX.Element => {
             <button
               key={tool}
               className="bg-neutral-cyan-200 p-2 rounded-full"
-              onClick={() => {
-                !filters.tools.includes(tool)
-                  ? (filters.tools.push(tool), setFilters({ ...filters }))
-                  : "";
-              }}
-              onKeyPress={() => {
-                !filters.tools.includes(tool)
-                  ? (filters.tools.push(tool), setFilters({ ...filters }))
-                  : "";
-              }}
+              onClick={() => setFilter(tool)}
+              onKeyPress={() => setFilter(tool)}
             >
               {tool}
             </button>
