@@ -2,6 +2,10 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "hero-desktop-pattern": "url('/assets/images/bg-header-desktop.svg')",
+        "hero-mobile-pattern": "url('/assets/images/bg-header-mobile.svg')",
+      },
       colors: {
         primary: {
           cyan: "hsl(180, 29%, 50%)",
