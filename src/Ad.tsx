@@ -47,7 +47,7 @@ const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
           ) : null}
         </div>
 
-        <h1>{position}</h1>
+        <h1 className="lg:text-2xl hover:text-primary-cyan">{position}</h1>
 
         <ul className="flex gap-6 text-neutral-cyan-300">
           <li className="">{postedAt}</li>
@@ -59,14 +59,14 @@ const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
 
         <div className="flex gap-3 flex-wrap text-primary-cyan font-bold lg:absolute lg:right-0 lg:top-1/2 lg:mx-4">
           <button
-            className="bg-neutral-cyan-200 p-2 rounded-full"
+            className="bg-neutral-cyan-200 px-2 py-1 rounded-md hover:text-neutral-cyan-100 hover:bg-primary-cyan"
             onClick={() => setFilter(role)}
             onKeyPress={() => setFilter(role)}
           >
             {role}
           </button>
           <button
-            className="bg-neutral-cyan-200 p-2 rounded-full"
+            className="bg-neutral-cyan-200 px-2 py-1 rounded-md hover:text-neutral-cyan-100 hover:bg-primary-cyan"
             onClick={() => setFilter(level)}
             onKeyPress={() => setFilter(level)}
           >
@@ -75,7 +75,7 @@ const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
           {languages?.map((language, index) => (
             <button
               key={index}
-              className="bg-neutral-cyan-200 p-2 rounded-full"
+              className="bg-neutral-cyan-200 px-2 py-1 rounded-md hover:text-neutral-cyan-100 hover:bg-primary-cyan"
               onClick={() => setFilter(language)}
               onKeyPress={() => setFilter(language)}
             >
@@ -85,7 +85,7 @@ const Ad: FC<Props> = ({ ad, setFilter }): JSX.Element => {
           {tools.map((tool) => (
             <button
               key={tool}
-              className="bg-neutral-cyan-200 p-2 rounded-full"
+              className="bg-neutral-cyan-200 px-2 py-1 rounded-md hover:text-neutral-cyan-100 hover:bg-primary-cyan"
               onClick={() => setFilter(tool)}
               onKeyPress={() => setFilter(tool)}
             >

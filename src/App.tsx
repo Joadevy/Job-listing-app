@@ -48,6 +48,10 @@ function App() {
     });
   };
 
+  const handleClear = () => {
+    setFilters(new Set());
+  };
+
   if (status === "loading") return <div>Loading...</div>;
 
   return (
@@ -55,18 +59,27 @@ function App() {
       <header className="h-32 bg-primary-cyan bg-hero-mobile-pattern lg:h-40 lg:bg-hero-desktop-pattern" />
 
       {filters.size ? (
-        <div className="flex flex-wrap gap-4 m-5 p-6 bg-neutral-100 relative z-10 mt-[-25px] shadow-md rounded-lg lg:mx-24">
-          {Array.from(filters).map((filter) => (
-            <Filter
-              key={filter}
-              filter={filter}
-              removeFilter={handleRemoveFilter}
-            />
-          ))}
+        <div className="flex mx-5 justify-between bg-neutral-100 relative z-10 mt-[-25px] shadow-md rounded-lg lg:mx-40  ease-out">
+          <div className="flex flex-wrap gap-4 m-5">
+            {Array.from(filters).map((filter) => (
+              <Filter
+                key={filter}
+                filter={filter}
+                removeFilter={handleRemoveFilter}
+              />
+            ))}
+          </div>
+          <button
+            className="text-primary-cyan text-lg hover:underline m-5"
+            onClick={handleClear}
+            onKeyPress={handleClear}
+          >
+            Clear
+          </button>
         </div>
       ) : null}
 
-      <main className="flex flex-col gap-10 mx-5 my-14 lg:mx-24">
+      <main className="flex flex-col gap-10 mx-5 my-14 lg:mx-40">
         {handleFilter().map((ad: adProps) => (
           <Ad key={ad.id} ad={ad} setFilter={handleAddFilter} />
         ))}
