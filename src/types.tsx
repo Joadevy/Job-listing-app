@@ -13,6 +13,3 @@ export type adProps = {
   languages: string[];
   tools: string[];
 };
-
-export interface Filter
-  extends Pick<adProps, "role" | "level" | "languages" | "tools"> {}
